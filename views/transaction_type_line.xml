@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="transaction_type_line_form_view" model="ir.ui.view">
+        <field name="name">transaction.type.line.form</field>
+        <field name="model">transaction.type.line</field>
+        <field name="arch" type="xml">
+            <form string="Transaction Type Line">
+                <sheet>
+                    <group>
+                        <group name="type_group">
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                        <group>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <!-- Tree View -->
+    <record id="transaction_type_line_tree_view" model="ir.ui.view">
+        <field name="name">transaction_type_tree_view</field>
+        <field name="model">transaction.type.line</field>
+        <field name="arch" type="xml">
+            <tree string="Transaction Type Line">
+                <field name="name"/>
+                <field name="description"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+    <!-- Search -->
+    <record id="transaction_type_line_search_view" model="ir.ui.view">
+        <field name="name">transaction.type.search.line.view</field>
+        <field name="model">transaction.type.line</field>
+        <field name="arch" type="xml">
+            <search string="Transaction Type Line Search View">
+                <group expand="1" string="Group By">
+                    <filter string="Name" name="name"
+                            context="{'group_by':'name'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <!-- Action -->
+    <record id="transaction_type_line_action_view" model="ir.actions.act_window">
+        <field name="name">Transaction Type</field>
+        <field name="res_model">transaction.type.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="transaction_type_line_tree_view"/>
+    </record>
+</odoo>

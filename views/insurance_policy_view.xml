@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="insurance_policy_form_view" model="ir.ui.view">
+            <field name="name">insurance.policy.form.view</field>
+            <field name="model">insurance.policy</field>
+            <field name="arch" type="xml">
+                <form string="Insurance Policy">
+                    <header>
+                        <field name="status" widget="statusbar" statusbar_visible="draft,active,laps,cancel"/>
+
+                        <button string="Activate"
+                                class="oe_highlight"
+                                type="object" name="policy_activate"
+                                invisible="status not in ['draft']"/>
+
+                        <button string="Set to Draft"
+                                class="oe_highlight"
+                                type="object" name="set_to_draft"
+                                invisible="status in ['draft','active','laps']"/>
+
+                        <button string="Risk"
+                                class="oe_highlight"
+                                type="object" name="get_new_risk"
+                                invisible="status in ['cancel']"
+                        />
+
+                        <button string="Insurance Transaction"
+                                class="oe_highlight"
+                                type="object" name="create_insurer_transaction_"
+                                invisible="status in ['cancel']"
+                        />
+
+                        <button string="Lapsed"
+                                class="oe_highlight"
+                                type="object" name="policy_lapsed"
+                                invisible="status in ['draft','laps','cancel']"/>
+
+                        <button string="Cancel"
+                                class="oe_highlight"
+                                type="object" name="policy_cancel"
+                                invisible="status in ['cancel']"/>
+
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name" placeholder="sequence" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="partner_id" required="1" readonly="status == 'cancel'"/>
+                                <field name="risk_type" readonly="status == 'cancel'"/>
+                                <field name="policy_number" required="1" readonly="status == 'cancel'"/>
+                                <field name="insurer_id" readonly="status == 'cancel'"/>
+                            </group>
+                            <group>
+                                <field name="policy_number_alias" required="1" readonly="status == 'cancel'"/>
+                                <field name="parent_policy_id" readonly="status == 'cancel'"/>
+                                <field name="company_id" invisible="1" readonly="status == 'cancel'"/>
+                                <field name="currency_id" readonly="status == 'cancel'" required="1"/>
+                                <field name="notes" readonly="status == 'cancel'"/>
+                            </group>
+                            <group>
+                                <field name="effective_date" readonly="status == 'cancel'"/>
+                                <field name="expiry_date" readonly="status == 'cancel'"/>
+                                <field name="cancellation_date" readonly="status == 'cancel'"/>
+                                <field name="count" invisible="1" readonly="status == 'cancel'"/>
+                                <field name="final_count" invisible="1" readonly="status == 'cancel'"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="policy_commission_log" string="Insurer Details">
+                                <field name="policy_commission_ids" string="Commission Log lines"
+                                       readonly="status == 'cancel'">
+                                    <tree editable="bottom">
+                                        <field name="sr_no"/>
+                                        <field name="insurer_id" required="0" string="Insurer"/>
+                                        <field name="police_number"/>
+                                        <field name="ppn" required="0"/>
+                                        <field name="commission_amount" required="0"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page name="history_ids" string="Risk Details">
+                                <field name="history_ids" string="History" widget="one2many">
+                                    <tree>
+                                        <field name="risk_type_id"/>
+                                        <field name="partner_id"/>
+                                        <field name="policy_number"/>
+                                        <button name="view_risk_policy" type="object" string="View"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page name="insurance_transaction_ids" string="Transaction Details">
+                                <field name="insurance_transaction_ids" string="Insurance Transaction" widget="one2many">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="status" string="Type"/>
+                                        <field name="effective_date"/>
+                                        <field name="total_premium"/>
+                                        <field name="transaction_details"/>
+                                        <field name="underwriting_status"/>
+                                        <field name="partner_id"/>
+                                        <field name="policy_number"/>
+                                        <button name="view_insurance_transaction" type="object" string="View"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Policy Extensions">
+                                <group>
+                                    <group>
+                                        <field name="policy_extension_id" readonly="status == 'cancel'"/>
+                                        <field name="extension_note" readonly="status == 'cancel'"/>
+                                    </group>
+                                </group>
+                            </page>
+
+                            <page string="Policy Deductibles">
+                                <group>
+                                    <group>
+                                        <field name="policy_deduction_id" readonly="status == 'cancel'"/>
+                                        <field name="deductive_note" readonly="status == 'cancel'"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="insurance_policy_tree_view" model="ir.ui.view">
+            <field name="name">insurance.policy.tree.view</field>
+            <field name="model">insurance.policy</field>
+            <field name="arch" type="xml">
+                <tree string="Insurance Policy Tree">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="policy_number"/>
+                    <field name="effective_date"/>
+                    <field name="expiry_date"/>
+                    <field name="cancellation_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="insurance_policy_search_view" model="ir.ui.view">
+            <field name="name">insurance.policy.search.view</field>
+            <field name="model">insurance.policy</field>
+            <field name="arch" type="xml">
+                <search string="Insurance Policy Search">
+                    <field name="name"/>
+                    <field name="insurer_id"/>
+                    <field name="partner_id"/>
+                    <field name="policy_number"/>
+                    <field name="effective_date"/>
+                    <field name="expiry_date"/>
+                    <field name="cancellation_date"/>
+
+                    <separator/>
+                    <filter string="Today" name="today"
+                            domain="[('create_date', '&gt;', (context_today() - datetime.timedelta(days=1)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Last 7 days" name="last_7days"
+                            domain="[('create_date','&gt;', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Last Week" name="last_week" domain="[(
+                    'create_date','&gt;=', (
+                        context_today() - datetime.timedelta(days=7)
+                        ).strftime('%Y-%m-%d')
+                    )]"/>
+                    <filter string="Last Month" name="last_month" domain="[(
+                    'create_date','&gt;=', (
+                        context_today() - datetime.timedelta(days=30)
+                        ).strftime('%Y-%m-%d')
+                    )]"/>
+                    <filter string="Last Year" name="Last Year" domain="[(
+                    'create_date','&gt;=', (
+                        context_today() - datetime.timedelta(days=365)
+                        ).strftime('%Y-%m-%d')
+                    )]"/>
+                    <separator/>
+                    <group expand="1" string="Group By">
+                        <filter string="Name" name="name" domain="[]"
+                                context="{'group_by':'name'}"/>
+                        <filter string="Insured" name="partner_id" domain="[]"
+                                context="{'group_by':'partner_id'}"/>
+                        <filter string="Policy Number" name="policy_number" domain="[]"
+                                context="{'group_by':'policy_number'}"/>
+                        <filter string="Effective Date" name="effective_date" domain="[]"
+                                context="{'group_by':'effective_date'}"/>
+                        <filter string="Expiry Date" name="expiry_date" domain="[]"
+                                context="{'group_by':'expiry_date'}"/>
+                        <filter string="Cancellation Date" name="cancellation_date" domain="[]"
+                                context="{'group_by':'cancellation_date'}"/>
+                        <filter string="insurer_id" name="insurer" domain="[]"
+                                context="{'group_by':'insurer_id'}"/>
+                        <separator/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="insurance_policy_act_window" model="ir.actions.act_window">
+            <field name="name">Insurance Policy</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">insurance.policy</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="insurance_broker_solution.insurance_broker_sol_root_menu_item"
+                  name="IBS"
+                  web_icon="insurance_broker_solution,static/description/icon.png"
+                  sequence="55"/>
+
+        <menuitem name="Insurance Policy"
+                  id="insurance_policy_menu"
+                  parent="insurance_broker_solution.insurance_broker_sol_root_menu_item"
+                  groups="insurance_broker_solution.group_insurance_admin_access"
+                  action="insurance_policy_act_window" sequence="10"/>
+
+        <menuitem id="insurance_broker_solution.insurance_broker_sol_config_menu_item"
+                  name="Configuration"
+                  parent="insurance_broker_solution.insurance_broker_sol_root_menu_item"
+                  groups="insurance_broker_solution.group_insurance_admin_access"
+                  sequence="100"/>
+    </data>
+</odoo>

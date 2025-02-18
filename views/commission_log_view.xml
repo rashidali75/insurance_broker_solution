@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="view_commission_log_form" model="ir.ui.view">
+        <field name="name">commission.log.form</field>
+        <field name="model">commission.log</field>
+        <field name="arch" type="xml">
+            <form string="Commission Log">
+                <sheet>
+                    <group>
+                        <field name="risk_type_id"/>
+                        <field name="insurer_id"/>
+                        <field name="commission_amount"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_commission_log_tree" model="ir.ui.view">
+        <field name="name">commission.log.tree</field>
+        <field name="model">commission.log</field>
+        <field name="arch" type="xml">
+            <tree string="Commission Log">
+                <field name="risk_type_id"/>
+                <field name="insurer_id"/>
+                <field name="commission_amount"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="commission_log_search_view" model="ir.ui.view">
+        <field name="name">commission.log.search.view</field>
+        <field name="model">commission.log</field>
+        <field name="arch" type="xml">
+            <search string="Commission Log View">
+                <field name="insurer_id"/>
+                <field name="risk_type_id"/>
+                <separator/>
+                <filter string="Today" name="today"
+                        domain="[('create_date', '&gt;', (context_today() - datetime.timedelta(days=1)).strftime('%Y-%m-%d'))]"/>
+                <filter string="Last 7 days" name="last_7days"
+                        domain="[('create_date','&gt;', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                <filter string="Last Week" name="last_week" domain="[(
+                                        'create_date','&gt;=', (
+                                            context_today() - datetime.timedelta(days=7)
+                                            ).strftime('%Y-%m-%d')
+                                        )]"/>
+                <filter string="Last Month" name="last_month" domain="[(
+                                        'create_date','&gt;=', (
+                                            context_today() - datetime.timedelta(days=30)
+                                            ).strftime('%Y-%m-%d')
+                                        )]"/>
+                <filter string="Last Year" name="Last Year"
+                        domain="[('create_date','&gt;=', (context_today() - datetime.timedelta(days=365)).strftime('%Y-%m-%d'))]"/>
+                <separator/>
+                <group expand="1" string="Group By">
+                    <filter string="Risk Type" name="risk_type_id"
+                            context="{'group_by':'risk_type_id'}"/>
+
+                    <filter string="Insurer" name="insurer_id"
+                            context="{'group_by':'insurer_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_commission_log" model="ir.actions.act_window">
+        <field name="name">Commission Log</field>
+        <field name="res_model">commission.log</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_commission_log_tree"/>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_commission_log" name="Commission Log"
+              parent="insurance_broker_solution.insurance_broker_sol_config_menu_item"
+              action="action_commission_log" sequence="20"/>
+</odoo>

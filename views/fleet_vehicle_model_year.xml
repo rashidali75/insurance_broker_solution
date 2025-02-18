@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="fleet_vehicle_model_view_form_ext" model="ir.ui.view">
+            <field name="name">fleet.vehicle.model.form.ext</field>
+            <field name="model">fleet.vehicle.model</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_model_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='information']/group[1]/group/field[@name='model_year']"
+                       position="replace">
+                    <field name="vehicle_year_id" string="Model Year"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="view_policy_extension_form" model="ir.ui.view">
+        <field name="name">policy.extension.form</field>
+        <field name="model">policy.extension</field>
+        <field name="arch" type="xml">
+            <form string="Policy Extension">
+                <sheet>
+                    <group name="main_group">
+                        <group name="type_group">
+                            <field name="risk_type_id" readonly="0" required="1"/>
+                        </group>
+                        <group>
+
+                        </group>
+                        <group>
+                            <field name="risk_description" required="1"/>
+                        </group>
+                    </group>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_policy_extension_tree" model="ir.ui.view">
+        <field name="name">policy.extension.form</field>
+        <field name="model">policy.extension</field>
+        <field name="arch" type="xml">
+            <tree string="Policy Extension List">
+                <field name="risk_type_id"/>
+                <field name="risk_description"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="policy_extension_search_view" model="ir.ui.view">
+        <field name="name">policy.extension.search.view</field>
+        <field name="model">policy.extension</field>
+        <field name="arch" type="xml">
+            <search string="Policy Extension Search View">
+                <group expand="1" string="Group By">
+                    <filter string="Risk type" name="risk_type_id"
+                            context="{'group_by':'risk_type_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_policy_extension_action_view" model="ir.actions.act_window">
+        <field name="name">Policy Extension</field>
+        <field name="res_model">policy.extension</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_policy_extension_tree"/>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_policy_extension" name="Policy Extension"
+              parent="insurance_broker_solution.insurance_broker_sol_config_menu_item"
+              action="action_policy_extension_action_view" sequence="50"/>
+</odoo>

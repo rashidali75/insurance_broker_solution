@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="insurer_partner_act_window" model="ir.actions.act_window">
+            <field name="name">Insurer</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('base.view_partner_tree')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('base.view_partner_form')})
+
+                         ]"/>
+            <field name="domain">[('is_insurer','=','True')]</field>
+            <field name="context">{'default_is_insurer': 'True'}</field>
+        </record>
+
+        <menuitem name="Insurer Partner"
+                  id="insurer_partner_menu"
+                  parent="insurance_broker_solution.insurance_broker_sol_config_menu_item"
+                  action="insurer_partner_act_window" sequence="10"/>
+    </data>
+</odoo>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="seq_insurance_policy" model="ir.sequence">
+            <field name="name">Insurance Policy</field>
+            <field name="code">insurance.policy</field>
+            <field name="prefix">IP</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_insurance_transaction" model="ir.sequence">
+            <field name="name">Insurance Transaction</field>
+            <field name="code">insurance.transaction</field>
+            <field name="prefix">IT</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_client_id" model="ir.sequence">
+            <field name="name">Client ID</field>
+            <field name="code">insurance_broker_solution.client</field>
+            <field name="prefix">I-</field>
+            <field name="padding">6</field>
+        </record>
+    </data>
+</odoo>

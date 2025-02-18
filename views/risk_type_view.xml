@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="view_risk_type_form" model="ir.ui.view">
+        <field name="name">risk.type.form</field>
+        <field name="model">risk.type</field>
+        <field name="arch" type="xml">
+            <form string="Risk Type">
+                <sheet>
+                    <group name="main_group">
+                        <group name="type_group">
+                            <field name="type" default="motor" readonly="0" required="1"/>
+                        </group>
+                        <group>
+
+                        </group>
+                        <group>
+                            <field name="risk_description" required="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_risk_type_tree" model="ir.ui.view">
+        <field name="name">risk.type.tree</field>
+        <field name="model">risk.type</field>
+        <field name="arch" type="xml">
+            <tree string="Risk Type">
+                <field name="type"/>
+                <field name="risk_description" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--    Search view-->
+    <record id="view_risk_type_search" model="ir.ui.view">
+        <field name="name">risk.type.search</field>
+        <field name="model">risk.type</field>
+        <field name="arch" type="xml">
+            <search string="Insurer Partner Search">
+                <group expand="1" string="Group By">
+                    <filter string="Risk type" name="type"
+                            context="{'group_by':'type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <!-- Action -->
+    <record id="action_risk_type" model="ir.actions.act_window">
+        <field name="name">Risk</field>
+        <field name="res_model">risk.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_risk_type_tree"/>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_risk_type" name="Risk Type"
+              parent="insurance_broker_solution.insurance_broker_sol_config_menu_item"
+              groups="insurance_broker_solution.group_insurance_admin_access"
+              action="action_risk_type" sequence="30"/>
+</odoo>

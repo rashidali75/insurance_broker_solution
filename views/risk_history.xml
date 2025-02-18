@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="risk_history_form_view_id" model="ir.ui.view">
+            <field name="name">risk.history.tree.view</field>
+            <field name="model">risk.history</field>
+            <field name="arch" type="xml">
+                <form string="History Policy">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="partner_id"/>
+                                <field name="policy_number"/>
+                            </group>
+                            <group>
+                                <field name="type"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="insurance_broker_solution.risk_history_tree_view_id" model="ir.ui.view">
+            <field name="name">risk.history.tree.view</field>
+            <field name="model">risk.history</field>
+            <field name="arch" type="xml">
+                <tree string="Insurance Policy Tree">
+                    <field name="partner_id"/>
+                    <field name="policy_number"/>
+                    <field name="type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="risk_history_search_view" model="ir.ui.view">
+            <field name="name">risk.history.search.view</field>
+            <field name="model">risk.history</field>
+            <field name="arch" type="xml">
+                <search string="Risk History View">
+                    <field name="partner_id"/>
+                    <field name="policy_number"/>
+                    <field name="type"/>
+                    <separator/>
+                    <filter string="Today" name="today"
+                            domain="[('create_date', '&gt;', (context_today() - datetime.timedelta(days=1)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Last 7 days" name="last_7days"
+                            domain="[('create_date','&gt;', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Last Week" name="last_week" domain="[(
+                                        'create_date','&gt;=', (
+                                            context_today() - datetime.timedelta(days=7)
+                                            ).strftime('%Y-%m-%d')
+                                        )]"/>
+                    <filter string="Last Month" name="last_month" domain="[(
+                                        'create_date','&gt;=', (
+                                            context_today() - datetime.timedelta(days=30)
+                                            ).strftime('%Y-%m-%d')
+                                        )]"/>
+                    <filter string="Last Year" name="Last Year"
+                            domain="[('create_date','&gt;=', (context_today() - datetime.timedelta(days=365)).strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+                    <group expand="1" string="Group By">
+                        <filter string="Risk Type" name="type"
+                                context="{'group_by':'type'}"/>
+                        <filter string="Customer" name="partner_id"
+                                context="{'group_by':'partner_id'}"/>
+                        <filter string="Policy Number" name="policy_number"
+                                context="{'group_by':'policy_number'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="insurance_broker_solution.risk_history_action_window_id" model="ir.actions.act_window">
+            <field name="name">History Policy</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">risk.history</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="History"
+                  id="risk_history_submenu"
+                  parent="insurance_broker_solution.insurance_broker_sol_root_menu_item"
+                  groups="insurance_broker_solution.group_insurance_admin_access"
+                  action="insurance_broker_solution.risk_history_action_window_id" sequence="40"
+        />
+    </data>
+</odoo>

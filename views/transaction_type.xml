@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Form View -->
+    <record model="ir.ui.view" id="transaction_type_form_view">
+        <field name="name">transaction.type.form</field>
+        <field name="model">transaction.type</field>
+        <field name="arch" type="xml">
+            <form string="Required Documents">
+                <sheet>
+                    <group>
+                        <group name="type_group">
+                            <field name="status"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Documents">
+                            <field name="transaction_line_ids">
+                                <tree editable="bottom" create="True">
+                                    <field name="name"/>
+                                    <field name="description"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <!-- Tree View -->
+    <record model="ir.ui.view" id="transaction_type_tree_view">
+        <field name="name">transaction.type.tree.view</field>
+        <field name="model">transaction.type</field>
+        <field name="arch" type="xml">
+            <tree string="Documents List View">
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+    <!-- Search -->
+    <record model="ir.ui.view" id="transaction_type_search_view">
+        <field name="name">transaction.type.search.view</field>
+        <field name="model">transaction.type</field>
+        <field name="arch" type="xml">
+            <search string="Required Documents Search View">
+                <group expand="1" string="Group By">
+                    <filter string="Transaction Type" name="status"
+                            context="{'group_by':'status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <!-- Action -->
+    <record model="ir.actions.act_window" id="transaction_type_action_view">
+        <field name="name">Transaction Type</field>
+        <field name="res_model">transaction.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new work location
+            </p>
+        </field>
+    </record>
+    <!-- Menu Item -->
+    <menuitem id="menu_transaction_type" name="Required Documents"
+              parent="insurance_broker_solution.insurance_broker_sol_config_menu_item"
+              action="transaction_type_action_view" sequence="60"/>
+</odoo>

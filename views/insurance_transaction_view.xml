@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="insurance_transaction_form_view" model="ir.ui.view">
+            <field name="name">insurance.transaction.form.view</field>
+            <field name="model">insurance.transaction</field>
+            <field name="arch" type="xml">
+                <form string="Insurance Transaction">
+                    <header>
+
+                        <button string="Create Invoice"
+                                class="oe_highlight"
+                                type="object" name="create_transaction_invoice"
+                                invisible="status in ['cancel']"/>
+
+                        <button string="Endorsement"
+                                class="oe_highlight"
+                                type="object" name="transaction_endorsement"
+                                invisible="status in ['renewal','renewal_notice','business','cancel','endorsement']"/>
+
+                        <button string="Business"
+                                class="oe_highlight"
+                                type="object" name="transaction_business"
+                                invisible="status in ['renewal','renewal_notice','business','cancel','endorsement']"/>
+
+
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button type="object" name="action_view_invoice"
+                                    class="oe_stat_button"
+                                    icon="fa-pencil-square-o"
+                                    invisible="invoice_count == 0">
+                                <field name="invoice_count" widget="statinfo" string="Invoice"/>
+                                <field name='invoice_ids' invisible="1"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name" placeholder="Sequence" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="partner_id"/>
+                                <field name="status"/>
+                                <field name="insurance_policy_id"/>
+                                <field name="policy_number"/>
+                                <field name="effective_date"/>
+                                <field name="transaction_details"/>
+                                <field name="currency_id" string="Insurance Currency" readonly="1"/>
+                                <field name="gross_premium"/>
+                                <field name="taxes_ids" widget="many2many_tags"/>
+                                <field name="additional_premium"/>
+                                <field name="total_premium"/>
+                                <field name="slip_sent"/>
+                                <field name="slip_received"/>
+                                <field name="schedule_received"/>
+                                <field name="invoice_sent"/>
+                                <field name="payment_method"/>
+                            </group>
+                            <group>
+                                <field name="payment_notes"/>
+                                <field name="premium_status"/>
+                                <field name="outstanding_premium"/>
+                                <field name="payment_received"/>
+                                <field name="underwriting_status"/>
+                                <field name="comments"/>
+                                <field name="slip_sent_date"/>
+                                <field name="slip_signed_date"/>
+                                <field name="received_date"/>
+                                <field name="invoice_sent_date"/>
+                                <field name="delivery_method"/>
+                                <field name="delivery_notes"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="transaction_document_ids" string="Compliance">
+                                <field name="transaction_document_ids">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="required"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="insurance_transaction_tree_view" model="ir.ui.view">
+            <field name="name">insurance.transaction.tree.view</field>
+            <field name="model">insurance.transaction</field>
+            <field name="arch" type="xml">
+                <tree string="Insurance Transaction">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="insurance_policy_id"/>
+                    <field name="effective_date"/>
+                    <field name="status"/>
+                    <field name="transaction_details"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="insurance_transaction_search_view" model="ir.ui.view">
+            <field name="name">insurance.transaction.search.view</field>
+            <field name="model">insurance.transaction</field>
+            <field name="arch" type="xml">
+                <search string="Transaction View">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="insurance_policy_id"/>
+                    <field name="effective_date"/>
+                    <field name="transaction_details"/>
+                    <filter string="Today" name="today"
+                            domain="[('create_date', '&gt;', (context_today() - datetime.timedelta(days=1)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Last 7 days" name="last_7days"
+                            domain="[('create_date','&gt;', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Last Week" name="last_week" domain="[(
+                    'create_date','&gt;=', (
+                        context_today() - datetime.timedelta(days=7)
+                        ).strftime('%Y-%m-%d')
+                    )]"/>
+                    <filter string="Last Month" name="last_month" domain="[(
+                    'create_date','&gt;=', (
+                        context_today() - datetime.timedelta(days=30)
+                        ).strftime('%Y-%m-%d')
+                    )]"/>
+                    <filter string="Last Year" name="Last Year"
+                            domain="[('create_date','&gt;=', (context_today() - datetime.timedelta(days=365)).strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+                    <group expand="1" string="Group By">
+                        <filter string="Name" name="name"
+                                context="{'group_by':'name'}"/>
+
+                        <filter string="Insured" name="partner_id"
+                                context="{'group_by':'partner_id'}"/>
+
+                        <filter string="Policy Number" name="insurance_policy_id"
+                                context="{'group_by':'insurance_policy_id'}"/>
+                        <filter string="Details" name="transaction_details"
+                                context="{'group_by':'transaction_details'}"/>
+
+                        <filter string="Effective Date" name="effective_date"
+                                context="{'group_by':'effective_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="insurance_transaction_act_window" model="ir.actions.act_window">
+            <field name="name">Insurance Transaction</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">insurance.transaction</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Insurance Transaction"
+                  id="insurance_transaction_menu"
+                  parent="insurance_broker_solution.insurance_broker_sol_root_menu_item"
+                  action="insurance_transaction_act_window" sequence="20"/>
+
+    </data>
+</odoo>

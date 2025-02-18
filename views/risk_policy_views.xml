@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="risk_policy_form_view" model="ir.ui.view">
+            <field name="name">risk.policy.form.view</field>
+            <field name="model">risk.policy</field>
+            <field name="arch" type="xml">
+                <form string="Risk">
+                    <sheet>
+                        <group>
+                            <group string="Policy Type">
+                                <field name="risk_type_id"/>
+                                <field name="type"/>
+                            </group>
+                            <group string="Insurance Policy">
+                                <field name="partner_id"/>
+                                <field name="policy_number"/>
+                            </group>
+                            <group name="property_type_group" invisible="type!='property'">
+                                <field name="subject_matter"
+                                       required="[('type', '=', 'property')] if type=='property' else False"/>
+                                <field name="subject_matter_wording"
+                                       required="[('type', '=', 'property')] if type=='property' else False"/>
+                            </group>
+                            <group name="property_type_group" invisible="type!='property'">
+                                <field name="sum_insured"
+                                       required="[('type', '=', 'property')] if type=='property' else False"/>
+                            </group>
+                            <group name="motor_group1" invisible="type!='motor'">
+                                <field name="registration_number"
+                                       required="[('type', '=', 'motor')] if type=='motor' else False"/>
+                                <field name="manufacture_year"
+                                       required="[('type', '=', 'motor')] if type=='motor' else False" invisible="1"/>
+                                <field name="years_manufacture_id"
+                                       required="[('type', '=', 'motor')] if type=='motor' else False"/>
+                                <field name="model_id"
+                                       required="[('type', '=', 'motor')] if type=='motor' else False"/>
+                                <field name="model_brand_name"
+                                       required="[('type', '=', 'motor')] if type=='motor' else False" readonly="1"/>
+                                <field name="brand_id"
+                                       required="[('type', '=', 'motor')] if type=='motor' else False" invisible="1"/>
+                                <field name="chassis_number"
+                                       required="[('type', '=', 'motor')] if type=='motor' else False"/>
+                                <field name="engine_number"
+                                       required="[('type', '=', 'motor')] if type=='motor' else False"/>
+                                <field name="seating_number"
+                                       required="[('type', '=', 'motor')] if type=='motor' else False"/>
+                                <field name="cc_rating"
+                                       required="[('type', '=', 'motor')] if type=='motor' else False"/>
+                            </group>
+                            <group name="motor_group2" invisible="type!='motor'">
+                                <field name="hp_rating"
+                                       required="[('type', '=', 'motor')] if type=='motor' else False"/>
+                                <field name="hand_drive"
+                                       required="[('type', '=', 'motor')] if type=='motor' else False"/>
+                                <field name="tare_weight"
+                                       required="[('type', '=', 'motor')] if type=='motor' else False"/>
+                                <field name="lease"
+                                       required="[('type', '=', 'motor')] if type=='motor' else False"/>
+                                <field name="driver_id"
+                                       required="[('type', '=', 'motor')] if type=='motor' else False"/>
+                                <field name="sum_insured"
+                                       required="[('type', '=', 'motor')] if type=='motor' else False"/>
+                                <field name="windscreen"
+                                       required="[('type', '=', 'motor')] if type=='motor' else False"/>
+                                <field name="special_notes"
+                                       invisible="type != 'motor'"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="risk_policy_tree_view" model="ir.ui.view">
+            <field name="name">risk.policy.tree.view</field>
+            <field name="model">risk.policy</field>
+            <field name="arch" type="xml">
+                <tree string="Risk">
+                    <field name="risk_type_id"/>
+                    <field name="partner_id"/>
+                    <field name="policy_number"/>
+                    <field name="subject_matter" required="[('type', '!=', 'motor')]"/>
+                    <field name="subject_matter_wording" required="[('type', '!=', 'motor')]"/>
+                    <field name="registration_number" required="[('type', '=', 'motor')]"/>
+                    <field name="manufacture_year" required="[('type', '=', 'motor')]" invisible="1"/>
+                    <field name="years_manufacture_id" required="[('type', '=', 'motor')]"/>
+                    <field name="brand_id" required="[('type', '=', 'motor')]" invisible="1"/>
+                    <field name="model_brand_name" required="[('type', '=', 'motor')]" readonly="1"/>
+                    <field name="model_id" required="[('type', '=', 'motor')]"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <record id="risk_policy_search_view" model="ir.ui.view">
+            <field name="name">risk.policy.search.view</field>
+            <field name="model">risk.policy</field>
+            <field name="arch" type="xml">
+                <search string="Risk View">
+                    <field name="partner_id"/>
+                    <field name="policy_number"/>
+                    <field name="risk_type_id"/>
+                    <field name="registration_number"/>
+                    <field name="brand_id" invisible="1"/>
+                    <field name="model_brand_name" readonly="1"/>
+                    <field name="model_id"/>
+                    <filter string="Today" name="today"
+                            domain="[('create_date', '&gt;', (context_today() - datetime.timedelta(days=1)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Last 7 days" name="last_7days"
+                            domain="[('create_date','&gt;', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Last Week" name="last_week" domain="[(
+                                        'create_date','&gt;=', (
+                                            context_today() - datetime.timedelta(days=7)
+                                            ).strftime('%Y-%m-%d')
+                                        )]"/>
+                    <filter string="Last Month" name="last_month" domain="[(
+                                        'create_date','&gt;=', (
+                                            context_today() - datetime.timedelta(days=30)
+                                            ).strftime('%Y-%m-%d')
+                                        )]"/>
+                    <filter string="Last Year" name="Last Year"
+                            domain="[('create_date','&gt;=', (context_today() - datetime.timedelta(days=365)).strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+                    <group expand="1" string="Group By">
+                        <filter string="Risk Type" name="risk_type_id"
+                                context="{'group_by':'risk_type_id'}"/>
+
+                        <filter string="Customer" name="partner_id"
+                                context="{'group_by':'partner_id'}"/>
+
+                        <filter string="Policy Number" name="policy_number"
+                                context="{'group_by':'policy_number'}"/>
+
+                        <filter string="Registration Number" name="registration_number"
+                                context="{'group_by':'registration_number'}"/>
+
+                        <filter string="Make" name="brand_id"
+                                context="{'group_by':'brand_id'}" invisible="1"/>
+                        <filter string="Make" name="model_brand_name"/>
+                        <filter string="Model" name="model_id"
+                                context="{'group_by':'model_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="risk_policy_act_window" model="ir.actions.act_window">
+            <field name="name">Risk</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">risk.policy</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Risk"
+                  id="risk_policy_menu"
+                  parent="insurance_broker_solution.insurance_broker_sol_root_menu_item"
+                  groups="insurance_broker_solution.group_insurance_admin_access"
+                  action="risk_policy_act_window" sequence="30"
+        />
+
+    </data>
+</odoo>

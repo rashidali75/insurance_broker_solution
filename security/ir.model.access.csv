@@ -1,0 +1,34 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_insurance_policy_user,Insurance Policy User,model_insurance_policy,group_insurance_user_access,1,1,1,0
+access_insurance_policy_admin,Insurance Policy Admin,model_insurance_policy,group_insurance_admin_access,1,1,1,1
+
+access_insurance_transaction_user,Insurance Transaction,model_insurance_transaction,group_insurance_user_access,1,1,1,0
+access_insurance_transaction_admin,Insurance Transaction,model_insurance_transaction,group_insurance_admin_access,1,1,1,1
+
+access_risk_type_admin,Risk Type,model_risk_type,group_insurance_admin_access,1,1,1,1
+access_risk_type_user,Risk Type,model_risk_type,group_insurance_user_access,1,1,1,0
+
+access_commission_log_admin,Commission Log,model_commission_log,group_insurance_admin_access,1,1,1,1
+access_commission_log_user,Commission Log,model_commission_log,group_insurance_user_access,1,1,1,0
+
+access_policy_commission_line_admin,Policy Commission line,model_policy_commission_line,group_insurance_admin_access,1,1,1,1
+access_policy_commission_line_user,Policy Commission line,model_policy_commission_line,group_insurance_user_access,1,1,1,0
+
+access_risk_policy_admin,Risk Policy Admin,model_risk_policy,group_insurance_admin_access,1,1,1,1
+access_risk_policy_user,Risk Policy User,model_risk_policy,group_insurance_user_access,1,1,1,0
+
+access_risk_history,Risk History,model_risk_history,group_insurance_user_access,1,1,1,1
+access_policy_deduction,Policy Deduction,model_policy_deduction,group_insurance_user_access,1,1,1,1
+
+access_policy_extension,Policy Extension,model_policy_extension,group_insurance_user_access,1,1,1,1
+access_insurance_policy_wizard,Insurance Policy Wizard,model_insurance_policy_wizard,group_insurance_user_access,1,1,1,1
+
+access_vehicle_year,Insurance vehicle year,model_vehicle_year,group_insurance_user_access,1,1,1,1
+access_transaction_type,Transaction Type,model_transaction_type,group_insurance_user_access,1,1,1,1
+
+access_transaction_type_line,Transaction Type Line,model_transaction_type_line,group_insurance_user_access,1,1,1,1
+access_transaction_document,Transaction Document,model_transaction_document,group_insurance_user_access,1,1,1,1
+
+access_compliance_line,Compliance Document,model_compliance_line,group_insurance_user_access,1,1,1,1
+
